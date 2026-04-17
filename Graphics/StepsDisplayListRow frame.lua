@@ -1,17 +1,11 @@
 local t = Def.ActorFrame {}
--- Controls the children of the StepsDisplayListRow if loaded anywhere
+-- Square card background for each StepsDisplayListRow item.
+-- Using a square ensures the background looks identical regardless of
+-- the rotation angle, hiding any rotation artifacts at card edges.
 
-t[#t + 1] =
-    Def.Quad {
+t[#t + 1] = Def.Quad {
     InitCommand = function(self)
-        self:zoomto(22, 20):diffuse(color("#ffffff")):diffusealpha(0.7)
-    end
-}
-
-t[#t + 1] =
-    Def.Quad {
-    InitCommand = function(self)
-        self:x(14):zoomto(40, 20):diffuse(color("#ffffff")):diffusealpha(0.5):halign(0)
+        self:zoomto(56, 56):diffuse(color("#ffffff")):diffusealpha(0.12)
     end
 }
 

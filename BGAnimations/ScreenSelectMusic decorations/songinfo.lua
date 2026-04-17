@@ -20,7 +20,7 @@ local function makeSSes()
         local colWidth = infoWidth / 4
         local col = (i-1) % 4 * colWidth
         local row = math.floor((i-1) / 4)
-        local rowHeight = 22
+        local rowHeight = 20
         
         return Def.ActorFrame {
             InitCommand = function(self)
@@ -116,13 +116,13 @@ t[#t+1] = Def.ActorFrame {
             else
                 self:visible(false)
             end
-            self:zoomto(20, 20)
+            self:zoomto(50, 50)
         end
     },
     LoadFont("Common Normal") .. {
         Name = "SongTitle",
         InitCommand = function(self)
-            self:xy(0, infoWidth * 0.25 + 5):zoom(.4):halign(0):maxwidth(infoWidth/0.4 - 30)
+            self:xy(0, infoWidth * 0.25 + 60):zoom(.4):halign(0):maxwidth(infoWidth/0.4)
         end,
         SetStuffCommand = function(self)
             if song then
@@ -135,7 +135,7 @@ t[#t+1] = Def.ActorFrame {
     LoadFont("Common Normal") .. {
         Name = "SongSubtitle",
         InitCommand = function(self)
-            self:xy(0, infoWidth * 0.25 + 16):zoom(.28):halign(0):maxwidth(infoWidth/0.28)
+            self:xy(0, infoWidth * 0.25 + 71):zoom(.28):halign(0):maxwidth(infoWidth/0.28)
         end,
         SetStuffCommand = function(self)
             if song then
@@ -148,7 +148,7 @@ t[#t+1] = Def.ActorFrame {
     LoadFont("Common Normal") .. {
         Name = "SongArtist",
         InitCommand = function(self)
-            self:xy(0, infoWidth * 0.25 + 25):zoom(.28):halign(0):maxwidth(infoWidth/0.28)
+            self:xy(0, infoWidth * 0.25 + 80):zoom(.28):halign(0):maxwidth(infoWidth/0.28)
         end,
         SetStuffCommand = function(self)
             if song then
@@ -161,7 +161,7 @@ t[#t+1] = Def.ActorFrame {
     LoadFont("Common Normal") .. {
         Name = "SongCredits",
         InitCommand = function(self)
-            self:xy(0, infoWidth * 0.25 + 34):zoom(.22):halign(0):maxwidth(infoWidth/0.22)
+            self:xy(0, infoWidth * 0.25 + 89):zoom(.22):halign(0):maxwidth(infoWidth/0.22)
             self:diffuse(color("#888888"))
         end,
         SetStuffCommand = function(self)
@@ -179,7 +179,7 @@ t[#t+1] = Def.ActorFrame {
 
     makeSSes() .. {
         InitCommand = function(self)
-            self:y(infoWidth * 0.25 + 45)
+            self:y(infoWidth * 0.25 + 100)
         end
     },
 
@@ -187,7 +187,7 @@ t[#t+1] = Def.ActorFrame {
         File = THEME:GetPathF("BPMDisplay", "bpm"),
         Name = "BPMDisplay",
         InitCommand = function(self)
-            self:xy(infoWidth, infoWidth * 0.25 + 35):halign(1):zoom(0.28)
+            self:xy(infoWidth, infoWidth * 0.25 + 90):halign(1):zoom(0.28)
         end,
         SetStuffCommand = function(self)
             if song then
@@ -200,7 +200,7 @@ t[#t+1] = Def.ActorFrame {
     },
     LoadFont("Common Normal") .. {
         InitCommand = function(self)
-            self:xy(infoWidth - 35, infoWidth * 0.25 + 35):zoom(.28)
+            self:xy(infoWidth - 35, infoWidth * 0.25 + 90):zoom(.28)
             self:settext("BPM:"):halign(1)
         end
     },
@@ -208,7 +208,7 @@ t[#t+1] = Def.ActorFrame {
     LoadFont("Common Normal") .. {
         Name = "RateDisplay",
         InitCommand = function(self)
-            self:xy(infoWidth, infoWidth * 0.25 + 43):zoom(0.28):halign(1)
+            self:xy(infoWidth, infoWidth * 0.25 + 98):zoom(0.28):halign(1)
         end,
         CurrentStepsChangedMessageCommand = function(self)
             self:settext(getCurRateDisplayString())
@@ -217,11 +217,7 @@ t[#t+1] = Def.ActorFrame {
             self:settext(getCurRateDisplayString())
         end,
         CodeMessageCommand = function(self, params)
-            if params.Name == "NextRate" then
-                ChangeMusicRateAbyss(0.05)
-            elseif params.Name == "PrevRate" then
-                ChangeMusicRateAbyss(-0.05)
-            end
+            ChangeMusicRate(nil, params)
         end
     }
 

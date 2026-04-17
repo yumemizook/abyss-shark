@@ -34,19 +34,17 @@ t[#t+1] = Def.ActorFrame {
     end
 }
 
-
-
-
 local wheelX = 15
 local arbitraryWheelXThing = 17
 local space = 20
 local stepsdisplayx = wheelX + arbitraryWheelXThing + space + capWideScale(get43size(365),365)-50
 
--- This works in conjunction with the ScreenSelectMusic StepsDisplayList.lua
+-- Difficulty selector: uses the built-in Def.StepsDisplayList
+-- Metrics transform it to be horizontal (see [StepsDisplayListRow] in metrics.ini)
 t[#t + 1] = Def.ActorFrame {
     Name = "StepsDisplay",
     InitCommand = function(self)
-        self:xy(stepsdisplayx, 20 + 60 + 10 * #ms.SkillSets + 30)
+        self:xy(stepsdisplayx + 20, 20 + 60 + 80 + 135)
     end,
     OffCommand = function(self)
         self:visible(false)
@@ -58,32 +56,33 @@ t[#t + 1] = Def.ActorFrame {
         local song = GAMESTATE:GetCurrentSong()
         if song then
             self:playcommand("On")
-        elseif not song then
+        else
             self:playcommand("Off")
         end
     end,
     Def.StepsDisplayList {
         Name = "StepsDisplayListRow",
+        InitCommand = function(self)
+            -- Rotate the whole list 90° so vertical item spacing becomes horizontal on screen
+            self:rotationz(90)
+        end,
+        -- P1 cursor: a highlight bar
         CursorP1 = Def.ActorFrame {
             InitCommand = function(self)
                 self:player(PLAYER_1)
             end,
             Def.Quad {
                 InitCommand = function(self)
-                    self:x(54):zoomto(6, 20):halign(1):valign(0.5)
-                end,
-                BeginCommand = function(self)
-                    self:queuecommand("Set")
-                end,
-                SetCommand = function(self)
-                    self:zoomy(20)
+                    -- Square matches card background — looks correct at any rotation
+                    self:zoomto(56, 56):valign(0.5):halign(0.5)
+                    self:diffuse(color("1,1,1,0.25"))
                 end
             }
         },
         CursorP2 = Def.ActorFrame {},
         CursorP1Frame = Def.Actor {
             ChangeCommand = function(self)
-                self:stoptweening():decelerate(0.05)
+                self:stoptweening():decelerate(0.1)
             end
         },
         CursorP2Frame = Def.Actor {}
